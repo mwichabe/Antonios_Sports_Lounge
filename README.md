@@ -1,6 +1,9 @@
 # Antonios_Sports_Lounge Mobile App
 
 ![App Screenshot](assets/img.png)
+![Splash Screen](assets/img_1.png)
+![Sign In Screen](assets/img_2.png)
+
 
 ## Table of Contents
 
