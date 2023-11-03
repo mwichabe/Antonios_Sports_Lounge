@@ -49,7 +49,7 @@ Before you begin, ensure you have met the following requirements:
 1. Clone the repository:
 
    ```shell
-   git clone https:'repo url'
+   git clone https:'https://github.com/mwichabe/Antonios_Sports_Lounge.git'
 
 
 A few resources to get you started if this is your first Flutter project:
