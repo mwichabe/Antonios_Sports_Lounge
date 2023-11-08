@@ -1,7 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/signUpModel.dart';
 import '../widgets/fullProfilePage.dart';
 class NavigationDrawer_ extends StatefulWidget {
   const NavigationDrawer_({Key? key}) : super(key: key);
@@ -11,22 +16,22 @@ class NavigationDrawer_ extends StatefulWidget {
 }
 
 class _NavigationDrawer_State extends State<NavigationDrawer_> {
-  //User? user = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
 
- // UserModelOne loggedInUser = UserModelOne(uid: '');
+ UserModelOne loggedInUser = UserModelOne(uid: '');
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   /* FirebaseFirestore.instance
+   FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .get()
         .then((value) {
       loggedInUser = UserModelOne.fromMap(value.data());
       setState(() {});
-    });*/
+    });
   }
 
   @override
@@ -40,10 +45,10 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
               decoration: const BoxDecoration(
                 color: Colors.black,
               ),
-              accountName: Text('{loggedInUser.yourName}',
-                  style: const TextStyle(color: Colors.white)),
-              accountEmail: Text('{loggedInUser.email}',
-                  style: const TextStyle(color: Colors.white)),
+              accountName: const Text('{loggedInUser.yourName}',
+                  style: TextStyle(color: Colors.white)),
+              accountEmail: const Text('{loggedInUser.email}',
+                  style: TextStyle(color: Colors.white)),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 radius: 70,
@@ -51,7 +56,7 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
                   child: GestureDetector(
                     onTap: ()
                     {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>FullPhotoPage(url: 'loggedInUser.profilePictureUrl' ??'')));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const FullPhotoPage(url: 'loggedInUser.profilePictureUrl' ??'')));
                     },
                     child: CachedNetworkImage(
                       imageUrl: 'loggedInUser.profilePictureUrl' ?? '',
@@ -67,15 +72,6 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
                       height: 140,
                     ),
                   ),
-
-                  /*Image.network(
-                    loggedInUser.profilePictureUrl ??
-                        'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg',
-                    fit: BoxFit.cover,
-                    width: 140,
-                    height: 140,
-                    errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
-                  ),*/
                 ),
               )),
           const Divider(
@@ -136,7 +132,7 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
                       TextButton(
                         onPressed: () async {
                           // Sign out from FirebaseAuth
-                          /*await FirebaseAuth.instance.signOut();
+                          await FirebaseAuth.instance.signOut();
 
                           // Remove email from SharedPreferences
                           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -146,7 +142,7 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
 
                           // Navigate to the login screen
 
-                           */
+
                         },
                         child: const Text(
                           'Yes',
@@ -197,7 +193,7 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
                       ),
                       TextButton(
                         onPressed: () {
-                          /*user?.delete().then((value) =>
+                          user?.delete().then((value) =>
                               Fluttertoast.showToast(
                                   msg: 'Account deleted Successfully')
                                   .then((value) =>
@@ -205,7 +201,7 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
                                       context, 'signIn')));
                           Navigator.of(context).pop();
 
-                           */
+
 
                         },
                         child: const Text(
@@ -220,14 +216,14 @@ class _NavigationDrawer_State extends State<NavigationDrawer_> {
                   );
                 },
               )),
-          /*ListTile(
+          ListTile(
             leading: const Icon(
               Icons.admin_panel_settings,
               color: Colors.black,
             ),
             title: const Text('Admin', style: TextStyle(color: Colors.black)),
             onTap: () => Navigator.pushReplacementNamed(context, 'adminLogIn'),
-          ),*/
+          ),
         ],
       ),
     );

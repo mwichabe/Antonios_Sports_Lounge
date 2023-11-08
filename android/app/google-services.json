@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "572582786630",
+    "project_id": "antonios-34b68",
+    "storage_bucket": "antonios-34b68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572582786630:android:577723413aa3d9e7f9fc47",
+        "android_client_info": {
+          "package_name": "com.example.antonios"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbQZibGL2IGPFOD5-k8tk2Vj6-AWn2LUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

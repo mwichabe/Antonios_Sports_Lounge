@@ -1,6 +1,10 @@
 import 'package:antonios/constants/color.dart';
+import 'package:antonios/screens/home/homePages/Home.dart';
 import 'package:antonios/screens/signUp/signUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/waveWidgets.dart';
 
@@ -12,6 +16,8 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  bool isLoading = false;
+  final _auth = FirebaseAuth.instance;
   //controller
   final TextEditingController _emailEditingController = TextEditingController();
   final TextEditingController _passwordEditingController =
@@ -153,7 +159,7 @@ class _LogInState extends State<LogIn> {
                                     backgroundColor: Colors.black,
                                   ),
                                   onPressed: () {
-                                    //signIn(_emailEditingController.text,_passwordEditingController.text,);
+                                    signIn(_emailEditingController.text,_passwordEditingController.text,);
                                   },
                                   child: const Text(
                                     'LOGIN',
@@ -172,9 +178,9 @@ class _LogInState extends State<LogIn> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    SignUp()));
+                                                    const SignUp()));
                                       },
-                                      child: Text('SIGN UP')))
+                                      child: const Text('SIGN UP')))
                             ],
                           ),
                         ),
@@ -187,4 +193,97 @@ class _LogInState extends State<LogIn> {
           )),
     );
   }
+  void signIn(String email, String password) async {
+    if(_emailEditingController.text=='shereheadmin@gmail.com'&& _passwordEditingController.text=='Sherehe@1')
+    {
+      try {
+        // Perform sign-in
+        var userCredential = await _auth.signInWithEmailAndPassword(
+          email: _emailEditingController.text,
+          password: _passwordEditingController.text,
+        );
+
+        // Save login state using SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true);
+
+        setState(() {
+          isLoading = false;
+        }
+        );
+
+        // Navigate to home screen
+        Navigator.pushReplacementNamed(context, 'adminHomePage');
+
+        // Show success message
+        Fluttertoast.showToast(
+            msg: 'Admin Credentials are Successful'
+        );
+      } catch (e) {
+        print(e.toString());
+
+        setState(() {
+          isLoading = false;
+        });
+
+        // Show error message
+        Fluttertoast.showToast(
+          msg: 'Invalid admin credentials',
+        );
+      }
+    }
+    else if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
+      try {
+        // Perform sign-in
+        var userCredential = await _auth.signInWithEmailAndPassword(
+          email: _emailEditingController.text,
+          password: _passwordEditingController.text,
+        );
+
+        // Save login state using SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true);
+
+        setState(() {
+          isLoading = false;
+        }
+        );
+
+        // Navigate to home screen
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Home()));
+
+        // Show success message
+        Fluttertoast.showToast(
+          msg: 'Login Successful',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          timeInSecForIosWeb: 1,
+          fontSize: 16,
+        );
+      } catch (e) {
+        print(e.toString());
+
+        setState(() {
+          isLoading = false;
+        });
+
+        // Show error message
+        Fluttertoast.showToast(
+          msg: 'Invalid credentials, check your password or email and try again',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          timeInSecForIosWeb: 1,
+          fontSize: 16,
+        );
+      }
+    }
+  }
+
 }
+

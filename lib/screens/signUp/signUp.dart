@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:antonios/constants/color.dart';
 import 'package:antonios/screens/completeSignUp/completeSignUp.dart';
 import 'package:antonios/screens/signIn/signIn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../models/signUpModel.dart';
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
@@ -11,7 +18,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   bool isLoading = false;
-  //final _auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
   //form key
   final _formKey = GlobalKey<FormState>();
   //editing Controllers
@@ -351,8 +358,7 @@ class _SignUpState extends State<SignUp> {
                           width: 160,
                           child: ElevatedButton(
                             onPressed: () {
-                              //register(_emailEditingController.text,_passwordEditingController.text);
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CompleteSetup()));
+                              register(_emailEditingController.text,_passwordEditingController.text);
                             },
                             style: ElevatedButton.styleFrom
                               (
@@ -488,5 +494,59 @@ class _SignUpState extends State<SignUp> {
             }),
       ),
     );
+  }
+  postDetailsToFirestore()async
+  {
+    // calling firestore
+    FirebaseFirestore firebaseFirestore= FirebaseFirestore.instance;
+    User? user= _auth.currentUser;
+    //calling usermodel
+    UserModelOne userModel=UserModelOne(uid: '');
+    // sending content
+    userModel.email=user!.email;
+    userModel.uid=user.uid;
+    //userModel.phoneNumber= _phoneNumberController.text as int?;
+    userModel.yourName=_nameEditingController.text;
+    userModel.phoneNumber= phoneEditingController.text;
+    await firebaseFirestore
+        .collection('users')
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Navigator.pushReplacement(
+        (context), MaterialPageRoute(builder: (context)=>CompleteSetup()));
+    Fluttertoast.showToast(msg: 'Account created successfully',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      timeInSecForIosWeb: 1,
+      fontSize: 16,);
+  }
+  void register(String email,String password) async
+  {
+    if (_formKey.currentState!.validate())
+    {
+      setState(() {
+        isLoading=true;
+      }
+      );
+      await _auth.createUserWithEmailAndPassword(
+          email: _emailEditingController.text,
+          password: _passwordEditingController.text)
+          .then((value) => {
+        postDetailsToFirestore()
+      }).catchError((e)
+      {log(e!.message);
+      Fluttertoast.showToast(msg:'Registration failed. Check your Credentials and try again later.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        timeInSecForIosWeb: 1,
+        fontSize: 16,);
+      });
+
+    }
+    setState(() {
+      isLoading=false;
+    });
   }
 }
