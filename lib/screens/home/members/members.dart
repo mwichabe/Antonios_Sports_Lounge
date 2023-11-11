@@ -109,7 +109,7 @@ class _MembersState extends State<Members> {
                     // Filter out users who are already friends
                     final filteredUsersDocs = usersDocs.where((userDoc) {
                       final userId = userDoc['uid'];
-                      return !friendsUserIds.contains(userId)&&currentUser!.uid != userId && userId !='lf6ZUQeBo6RGZKQ5SPXNrniJmdr1';
+                      return !friendsUserIds.contains(userId)&&currentUser!.uid != userId && userId !='iD62fGxsVlVLv6VJI5Kxyq2IpwM2';
                     }).toList();
 
                     _searchList.clear();

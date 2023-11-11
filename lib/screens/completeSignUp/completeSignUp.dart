@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:antonios/constants/color.dart';
 import 'package:antonios/screens/home/homePages/Home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,7 +24,6 @@ class _CompleteSetupState extends State<CompleteSetup> {
 
   UserModelOne loggedInUser = UserModelOne(uid: '');
   bool isImageSelected = false;
-  String myToken = '';
 
   @override
   void initState() {
@@ -40,7 +37,6 @@ class _CompleteSetupState extends State<CompleteSetup> {
       loggedInUser = UserModelOne.fromMap(value.data());
       setState(() {});
     });
-    //getToken();
   }
 
 
@@ -134,7 +130,7 @@ class _CompleteSetupState extends State<CompleteSetup> {
                                     width: 180,
                                   )
                                 : Image.network(
-                                    'loggedInUser.profilePictureUrl' ??
+                                    loggedInUser.profilePictureUrl ??
                                         'https://firebasestorage.googleapis.com/v0/b/shereheapp-7a725.appspot.com/o/uploadImage.jpg?alt=media&token=31082b8c-739d-4793-a5fb-51945b4c20db',
                                     fit: BoxFit.cover,
                                     width: 140,
@@ -164,18 +160,18 @@ class _CompleteSetupState extends State<CompleteSetup> {
                 const SizedBox(
                   height: 15,
                 ),
-                const Row(
+                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.person_2_outlined,
                       color: Colors.black,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 3,
                     ),
                     Text(
-                      'Your Name',
-                      style: TextStyle(color: Colors.black),
+                      '${loggedInUser.yourName}',
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ],
                 ),
@@ -185,18 +181,18 @@ class _CompleteSetupState extends State<CompleteSetup> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Row(
+                Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.phone_outlined,
                       color: Colors.black,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 3,
                     ),
                     Text(
-                      'Your Phone number',
-                      style: TextStyle(color: Colors.black),
+                      '${loggedInUser.phoneNumber}',
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ],
                 ),

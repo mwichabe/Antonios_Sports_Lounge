@@ -1,5 +1,5 @@
 import 'package:antonios/constants/color.dart';
-import 'package:antonios/screens/signUp/signUp.dart';
+import 'package:antonios/providers/authStateManagement.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Navigate to the next screen when the animation is done.
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => SignUp(),
+        builder: (context) => const AuthPage(),
       ),
     );
   }

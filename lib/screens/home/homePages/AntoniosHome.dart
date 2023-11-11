@@ -1,3 +1,7 @@
+import 'package:antonios/eventsAttendance/bookAttendance.dart';
+import 'package:antonios/eventsAttendance/bookAttendance1.dart';
+import 'package:antonios/eventsAttendance/viewAttendance.dart';
+import 'package:antonios/eventsAttendance/viewAttendance1.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -202,7 +206,7 @@ class _AntoniosHomeState extends State<AntoniosHome> {
                                         ),
                                         Card(
                                           child: CachedNetworkImage(
-                                            height: 150,
+                                            height: 300,
                                             imageUrl: eventImageUrl,
                                             fit: BoxFit.cover,
                                             placeholder: (context,
@@ -334,7 +338,7 @@ class _AntoniosHomeState extends State<AntoniosHome> {
                                                       ),
                                                     ),
                                                     Padding(
-                                                      padding: const EdgeInsets.all(28.0),
+                                                      padding: const EdgeInsets.all(0.0),
                                                       child: SizedBox(
                                                         child: Row(
                                                           children: [
@@ -395,15 +399,15 @@ class _AntoniosHomeState extends State<AntoniosHome> {
                                                         onTap: () {
                                                           if (index == 0) {
                                                             Navigator
-                                                                .pushReplacementNamed(
+                                                                .pushReplacement(
                                                                 context,
-                                                                'eventBookAttendance');
+                                                               MaterialPageRoute(builder: (context)=>const EventBookAttendance()));
                                                           } else if (index ==
                                                               1) {
                                                             Navigator
-                                                                .pushReplacementNamed(
+                                                                .pushReplacement(
                                                                 context,
-                                                                'eventBookAttendance1');
+                                                               MaterialPageRoute(builder: (context)=>const EventBookAttendance1()));
                                                           }
                                                         },
                                                         splashColor:
@@ -424,15 +428,15 @@ class _AntoniosHomeState extends State<AntoniosHome> {
                                                         onTap: () {
                                                           if (index == 0) {
                                                             Navigator
-                                                                .pushReplacementNamed(
+                                                                .pushReplacement(
                                                                 context,
-                                                                'eventViewAttendance');
+                                                                MaterialPageRoute(builder: (context)=>const EventsViewAttendancePage()));
                                                           } else if (index ==
                                                               1) {
                                                             Navigator
-                                                                .pushReplacementNamed(
+                                                                .pushReplacement(
                                                                 context,
-                                                                'eventViewAttendance1');
+                                                                MaterialPageRoute(builder: (context)=>const EventsViewAttendancePage1()));
                                                           }
                                                         },
                                                         splashColor:

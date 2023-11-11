@@ -381,7 +381,7 @@ class _SignUpState extends State<SignUp> {
                           [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LogIn())
+                                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>const LogIn())
                                 );},
                               style: ElevatedButton.styleFrom
                                 (
@@ -513,7 +513,7 @@ class _SignUpState extends State<SignUp> {
         .doc(user.uid)
         .set(userModel.toMap());
     Navigator.pushReplacement(
-        (context), MaterialPageRoute(builder: (context)=>CompleteSetup()));
+        (context), MaterialPageRoute(builder: (context)=>const CompleteSetup()));
     Fluttertoast.showToast(msg: 'Account created successfully',
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
@@ -536,7 +536,26 @@ class _SignUpState extends State<SignUp> {
         postDetailsToFirestore()
       }).catchError((e)
       {log(e!.message);
-      Fluttertoast.showToast(msg:'Registration failed. Check your Credentials and try again later.',
+      // Show error message
+      String errorMessage = 'An error occurred during sign-up.';
+      if (e is FirebaseAuthException) {
+        switch (e.code) {
+          case 'weak-password':
+            errorMessage =
+            'The password is too weak. Please use a stronger password.';
+            break;
+          case 'email-already-in-use':
+            errorMessage =
+            'The email address is already in use. Please choose a different email.';
+            break;
+        // Add more cases for other possible error codes
+          default:
+            errorMessage =
+            'An error occurred while creating your account. Please try again later.';
+        }
+      }
+      Fluttertoast.showToast(
+        msg:errorMessage,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,

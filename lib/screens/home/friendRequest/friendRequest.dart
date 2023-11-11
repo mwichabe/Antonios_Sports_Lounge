@@ -1,4 +1,5 @@
 import 'package:antonios/constants/color.dart';
+import 'package:antonios/widgets/fullProfilePage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,20 +81,28 @@ class _FriendRequestState extends State<FriendRequest> {
                           title: Column(
                             children: [
                               Text(' $senderName'),
-                              CircleAvatar(
-                                radius: 30,
-                                child: ClipOval(
-                                  child: SizedBox(
-                                      height: 50,
-                                      width: 50,
-                                      child: CachedNetworkImage(
-                                        imageUrl: profilePictureUrl,
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                        errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                      )),
+                              GestureDetector(
+                                onTap: ()
+                                {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>FullPhotoPage(
+                                      url: profilePictureUrl
+                                  )));
+                                },
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  child: ClipOval(
+                                    child: SizedBox(
+                                        height: 50,
+                                        width: 50,
+                                        child: CachedNetworkImage(
+                                          imageUrl: profilePictureUrl,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                        )),
+                                  ),
                                 ),
                               ),
                             ],
