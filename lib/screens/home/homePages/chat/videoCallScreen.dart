@@ -107,19 +107,13 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             client: client,
             layoutType: Layout.floating,
             enableHostControls: true,
+            showNumberOfUsers: true,
           ),
           AgoraVideoButtons(
             client: client,
             addScreenSharing: false,
           )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Toggle mute/unmute
-          // Implement logic to mute/unmute the microphone
-        },
-        child: Icon(Icons.mic), // Toggle microphone icon
       ),
     );
   }
