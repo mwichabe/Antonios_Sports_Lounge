@@ -85,7 +85,32 @@ class _ChatState extends State<Chat> {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Text('You have no one to chat with');
+            return Center(
+              child: Container(
+                height: MediaQuery.of(context).size.height/2,
+                color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                          ),
+                          child: Image.asset('assets/9264885.jpg',fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.height/2.5,
+                              width: MediaQuery.of(context).size.height/2.5,),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                              'Oops! You have no one to chat with\n '
+                                  'Move to Members tab to find friends'),
+                        ),
+                      ],
+                    ),
+                  )),
+            );
           } else {
             final friendDocs = snapshot.data!.docs;
             _searchList.clear();

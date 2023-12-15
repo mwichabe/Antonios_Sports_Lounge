@@ -7,6 +7,7 @@ import 'package:antonios/providers/auth/authProvider.dart';
 import 'package:antonios/providers/chat/chatProvider.dart';
 import 'package:antonios/providers/chat/messageNotifier.dart';
 import 'package:antonios/screens/splashScreen/splashScreen.dart';
+import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
