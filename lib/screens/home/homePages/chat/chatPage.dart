@@ -4,9 +4,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:antonios/constants/color.dart';
+import 'package:antonios/screens/home/homePages/chat/videoCallScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -657,6 +657,13 @@ class ChatPage3State extends State<ChatPage3> {
         ),
         centerTitle: true,
         elevation: 0.0,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>VideoCallScreen(friendName: widget.arguments.friendName)));
+          },
+              icon: const Icon(Icons.video_call_outlined)
+          )
+        ],
       ),
       body: SafeArea(
         child: WillPopScope(

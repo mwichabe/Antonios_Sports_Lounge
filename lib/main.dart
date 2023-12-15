@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:agora_uikit/agora_uikit.dart';
 import 'package:antonios/constants/color.dart';
+import 'package:antonios/firebase_options.dart';
 import 'package:antonios/providers/auth/authProvider.dart';
 import 'package:antonios/providers/chat/chatProvider.dart';
 import 'package:antonios/providers/chat/messageNotifier.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage rMessage) async {
   log('Handling a background message ${rMessage.messageId}');
@@ -20,15 +23,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage rMessage) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  await Firebase.initializeApp(
-      /*options: const FirebaseOptions(
-          apiKey: "AIzaSyDcNAoOWqe3Qinv3b_ZYmCiVhSjtyYyrPA",
-          authDomain: "antonios-34b68.firebaseapp.com",
-          projectId: "antonios-34b68",
-          storageBucket: "antonios-34b68.appspot.com",
-          messagingSenderId: "572582786630",
-          appId: "1:572582786630:web:4556b910ab643a1ef9fc47")*/
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(
