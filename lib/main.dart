@@ -1,13 +1,10 @@
 import 'dart:developer';
-
-import 'package:agora_uikit/agora_uikit.dart';
 import 'package:antonios/constants/color.dart';
 import 'package:antonios/firebase_options.dart';
 import 'package:antonios/providers/auth/authProvider.dart';
 import 'package:antonios/providers/chat/chatProvider.dart';
 import 'package:antonios/providers/chat/messageNotifier.dart';
 import 'package:antonios/screens/splashScreen/splashScreen.dart';
-import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage rMessage) async {
   log('Handling a background message ${rMessage.messageId}');
@@ -44,7 +41,7 @@ Future<void> main() async {
           create: (_) => MessageNotifier(),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
