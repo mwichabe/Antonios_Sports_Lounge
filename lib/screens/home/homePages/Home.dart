@@ -1,5 +1,6 @@
 import 'package:antonios/Drawer/navigationDrawer.dart';
 import 'package:antonios/constants/color.dart';
+import 'package:antonios/screens/home/homePages/videoConference/videoConferenceScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import '../friendRequest/friendRequest.dart';
 import '../members/members.dart';
 import 'AntoniosHome.dart';
 import 'chat/chat.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -23,7 +25,7 @@ class _HomeState extends State<Home> {
   final currentUserId = FirebaseAuth.instance.currentUser!.uid;
   String groupChatId = '';
   MessageChat? _message;
-  static bool _isLoading= false;
+  static bool _isLoading = false;
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     // pages
@@ -31,7 +33,6 @@ class _HomeState extends State<Home> {
     const Chat(),
     const Members(),
     const FriendRequest()
-
   ];
   final User? currentUser = FirebaseAuth.instance.currentUser;
   @override
@@ -50,11 +51,13 @@ class _HomeState extends State<Home> {
       });
     });
   }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -94,6 +97,16 @@ class _HomeState extends State<Home> {
           title: const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text('Antonios Sports Lounge')),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const VideoConferenceScreen()));
+                },
+                icon: const Icon(Icons.video_call))
+          ],
         ),
         drawer: const NavigationDrawer_(),
         body: IndexedStack(
@@ -108,7 +121,7 @@ class _HomeState extends State<Home> {
           showUnselectedLabels: false,
           backgroundColor: Colors.white,
           selectedItemColor: AppColor.themeColor,
-          items:  <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             const BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',

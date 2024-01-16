@@ -7,7 +7,6 @@ import 'package:antonios/constants/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
@@ -17,7 +16,7 @@ import 'package:provider/provider.dart';
 import '../../../../constants/firebaseConstants.dart';
 import '../../../../models/messageChat.dart';
 import '../../../../models/signUpModel.dart';
-import '../../../../providers/auth/authProvider.dart';
+import '../../../../providers/auth/authProvider.dart' as local_auth_provider;
 import '../../../../providers/chat/chatProvider.dart';
 import '../../../../widgets/fullProfilePage.dart';
 import '../../../../widgets/loadingView.dart';
@@ -52,7 +51,8 @@ class ChatPage3State extends State<ChatPage3> {
   final FocusNode focusNode = FocusNode();
 //PROBLEM
   late final ChatProvider chatProvider = context.read<ChatProvider>();
-  late final AuthProvider authProvider = context.read<AuthProvider>();
+  late final local_auth_provider.AuthProvider authProvider =
+      context.read<local_auth_provider.AuthProvider>();
 
   @override
   void initState() {
@@ -650,9 +650,6 @@ class ChatPage3State extends State<ChatPage3> {
         ),
         centerTitle: true,
         elevation: 0.0,
-        actions: [
-      IconButton(onPressed: ()=>, icon: const Icon(Icons.call))
-        ],
       ),
       body: SafeArea(
         child: WillPopScope(
@@ -760,9 +757,11 @@ class ChatPage3State extends State<ChatPage3> {
                       controller: listScrollController,
                     );
                   } else {
-                    return  Center(child: Image.asset('assets/noMessages.jpg',fit: BoxFit.cover,
-                        height: MediaQuery.of(context).size.height/2.5,
-                        width: MediaQuery.of(context).size.height/2.5));
+                    return Center(
+                        child: Image.asset('assets/noMessages.jpg',
+                            fit: BoxFit.cover,
+                            height: MediaQuery.of(context).size.height / 2.5,
+                            width: MediaQuery.of(context).size.height / 2.5));
                   }
                 } else {
                   return const Center(
