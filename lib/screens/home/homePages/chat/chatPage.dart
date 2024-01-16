@@ -650,6 +650,9 @@ class ChatPage3State extends State<ChatPage3> {
         ),
         centerTitle: true,
         elevation: 0.0,
+        actions: [
+      IconButton(onPressed: ()=>, icon: const Icon(Icons.call))
+        ],
       ),
       body: SafeArea(
         child: WillPopScope(
