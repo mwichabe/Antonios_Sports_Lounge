@@ -10,11 +10,11 @@ class VideoConferenceScreen extends StatelessWidget {
       child: Column(
         children: [
           const Text(
-              'Welcome to the Video conferencing \n Here you can for a video chat with your friends!'),
+              'Welcome to the Video conferencing \n Here you can add a video chat with your friends!'),
           ElevatedButton(
               onPressed: () {
                 Fluttertoast.showToast(
-                    msg: 'This will be implemented soon, be patient!');
+                    msg: 'This feature will be implemented soon...');
               },
               child: const Text('Click To Proceed')),
         ],
