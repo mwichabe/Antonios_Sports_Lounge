@@ -96,7 +96,7 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Text('Antonios Sports Lounge')),
+              child: Text('KIBABII UNIVERSITY')),
           actions: [
             IconButton(
                 onPressed: () {

@@ -39,9 +39,6 @@ class _CompleteSetupState extends State<CompleteSetup> {
     });
   }
 
-
-
-
   //pick image
   File? _image;
   Future<void> _pickImage() async {
@@ -160,7 +157,7 @@ class _CompleteSetupState extends State<CompleteSetup> {
                 const SizedBox(
                   height: 15,
                 ),
-                 Row(
+                Row(
                   children: [
                     const Icon(
                       Icons.person_2_outlined,
@@ -301,11 +298,11 @@ class _CompleteSetupState extends State<CompleteSetup> {
                                   borderRadius: BorderRadius.circular(10)),
                               hoverColor: Colors.white,
                               label: const Text(
-                                'Favourite Drink',
+                                'Registration Number/ Staff Number',
                                 style: TextStyle(color: Colors.white),
                               ),
                               prefixIcon: const Icon(
-                                Icons.local_drink,
+                                Icons.app_registration_rounded,
                                 color: Colors.black,
                               )),
                         ),

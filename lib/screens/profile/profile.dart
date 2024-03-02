@@ -324,7 +324,7 @@ class _ProfileState extends State<Profile> {
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Favourite drink Update required.';
+                                    return 'Confirm your registration number';
                                   }
                                   return null;
                                 },
@@ -341,9 +341,10 @@ class _ProfileState extends State<Profile> {
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(
                                             color: Colors.grey)),
-                                    hintText: 'Update your favourite drink',
+                                    hintText:
+                                        'Confrim your registration number',
                                     prefixIcon: const Icon(
-                                      Icons.local_drink,
+                                      Icons.app_registration_rounded,
                                       color: Colors.white,
                                     )),
                                 style: const TextStyle(color: Colors.white),
@@ -371,7 +372,7 @@ class _ProfileState extends State<Profile> {
                                   child: const Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
-                                      'Friends',
+                                      'View your friends',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,

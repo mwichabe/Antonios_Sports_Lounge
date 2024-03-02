@@ -27,6 +27,7 @@ Future<int> getFriendCount() async {
       .get();
   return snapshot.docs.length;
 }
+
 class _FriendsState extends State<Friends> {
   Future<void> _refreshUI() async {
     final snapshot = await FirebaseFirestore.instance
@@ -40,36 +41,39 @@ class _FriendsState extends State<Friends> {
       _searchList.addAll(snapshot.docs);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async
-      {
-        final shouldPop= await showDialog<bool>(
-
+      onWillPop: () async {
+        final shouldPop = await showDialog<bool>(
             context: context,
-            builder: (context)
-            {
-              return AlertDialog
-                (
+            builder: (context) {
+              return AlertDialog(
                 title: const Text('Do you want to exit this App?'),
                 actionsAlignment: MainAxisAlignment.spaceBetween,
-                actions:
-                [
-                  TextButton
-                    (
-                    onPressed: (){Navigator.pop(context,true);},
-                    child: const Text('Yes',style: TextStyle(color: Colors.black),),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: const Text(
+                      'Yes',
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
-                  TextButton
-                    (
-                    onPressed: (){Navigator.pop(context,false);},
-                    child: const Text('No',style: TextStyle(color: Colors.green),),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                    child: const Text(
+                      'No',
+                      style: TextStyle(color: Colors.green),
+                    ),
                   )
                 ],
               );
-            }
-        );
+            });
         return shouldPop!;
       },
       child: Scaffold(
@@ -78,55 +82,54 @@ class _FriendsState extends State<Friends> {
           automaticallyImplyLeading: false,
           title: _isSearching
               ? TextField(
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Search...',
-            ),
-            autofocus: true,
-            style: const TextStyle(fontSize: 17, letterSpacing: 0.5),
-            onChanged: (val) {
-              setState(() {
-                _filteredSearchList = _searchList.where((item) {
-                  return item['friendName']
-                      .toLowerCase()
-                      .contains(val.toLowerCase());
-                }).toList();
-              });
-            },
-          )
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Search...',
+                  ),
+                  autofocus: true,
+                  style: const TextStyle(fontSize: 17, letterSpacing: 0.5),
+                  onChanged: (val) {
+                    setState(() {
+                      _filteredSearchList = _searchList.where((item) {
+                        return item['friendName']
+                            .toLowerCase()
+                            .contains(val.toLowerCase());
+                      }).toList();
+                    });
+                  },
+                )
               : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Your Friends',
-                style: TextStyle(color: Colors.black),
-              ),
-              FutureBuilder<int>(
-                future: getFriendCount(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final int friendCount = snapshot.data!;
-                    return Text(
-                      'Total Friends: $friendCount',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-              ),
-            ],
-          ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Your Friends',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    FutureBuilder<int>(
+                      future: getFriendCount(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final int friendCount = snapshot.data!;
+                          return Text(
+                            'Total Friends: $friendCount',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    ),
+                  ],
+                ),
           centerTitle: true,
           backgroundColor: Colors.grey[400],
           elevation: 1.0,
-          actions:
-          [
+          actions: [
             IconButton(
                 onPressed: () {
                   setState(() {
@@ -139,9 +142,13 @@ class _FriendsState extends State<Friends> {
                       : Icons.search_rounded,
                   color: Colors.black,
                 )),
-            IconButton(onPressed:()=>
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home())),
-                icon: const Icon(Icons.close,color: Colors.black,)),
+            IconButton(
+                onPressed: () => Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Home())),
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.black,
+                )),
           ],
         ),
         body: StreamBuilder<QuerySnapshot>(
@@ -163,15 +170,16 @@ class _FriendsState extends State<Friends> {
                 edgeOffset: 0,
                 triggerMode: RefreshIndicatorTriggerMode.onEdge,
                 child: ListView.builder(
-                  itemCount:
-                  _isSearching ? _filteredSearchList.length : friendDocs.length,
+                  itemCount: _isSearching
+                      ? _filteredSearchList.length
+                      : friendDocs.length,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     final friendDoc = _isSearching
                         ? _filteredSearchList[index]
                         : friendDocs[index];
                     final friendProfilePictureUrl =
-                    friendDoc['friendProfilePictureUrl'];
+                        friendDoc['friendProfilePictureUrl'];
                     final friendName = friendDoc['friendName'];
                     final friendUserId = friendDoc['userId'];
 
@@ -195,8 +203,9 @@ class _FriendsState extends State<Friends> {
                                       imageUrl: friendProfilePictureUrl,
                                       fit: BoxFit.cover,
                                       placeholder: (context, url) =>
-                                      const CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) => const Icon(
+                                          const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
                                         Icons.error,
                                         color: Colors.red,
                                       ),
@@ -204,25 +213,25 @@ class _FriendsState extends State<Friends> {
                               ),
                             ),
                             title: Text(friendName),
-                            trailing:
-                            ElevatedButton.icon
-                              (
-                              onPressed: (){
+                            trailing: ElevatedButton.icon(
+                              onPressed: () {
                                 deleteFriend(friendUserId);
                               },
-                              icon: const Icon(CupertinoIcons.delete_solid,color: Colors.black),
-                              label: const Text('Unfriend',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                              icon: const Icon(CupertinoIcons.delete_solid,
+                                  color: Colors.black),
+                              label: const Text(
+                                'Unfriend',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.grey[600],
-                                  shape: RoundedRectangleBorder
-                                    (
-                                      borderRadius: BorderRadius.circular(10)
-                                  )
-                              ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
                             ),
                           ),
-                        )
-                    );
+                        ));
                   },
                 ),
               );
@@ -236,6 +245,7 @@ class _FriendsState extends State<Friends> {
       ),
     );
   }
+
   Future<void> deleteFriend(String friendUserId) async {
     final currentUserId = FirebaseAuth.instance.currentUser!.uid;
     final friendRef = FirebaseFirestore.instance
@@ -245,7 +255,8 @@ class _FriendsState extends State<Friends> {
         .doc(friendUserId);
 
     try {
-      await friendRef.delete().then((value) => Fluttertoast.showToast(msg: 'Friend is successfully deleted'));
+      await friendRef.delete().then((value) =>
+          Fluttertoast.showToast(msg: 'Friend is successfully deleted'));
       setState(() {
         _isSearching = false;
       });
